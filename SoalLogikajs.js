@@ -12,15 +12,26 @@ let perpus = {
 //     - Tambahkan namaBuku ke KoleksiBuku
 
 function tambahBuku(namaBuku) {
-  perpus.koleksiBuku.push(namaBuku);
-  return perpus.koleksiBuku;
+  let ditemukan = false;
+  for (let i = 0; i < perpus.koleksiBuku.length; i++) {
+    if (namaBuku == perpus.koleksiBuku[i]) {
+      ditemukan = true;
+      console.log(namaBuku + " Sudah ada di Perpustakaan");
+      return perpus.koleksiBuku;
+    }
+
+    if (!ditemukan) {
+      perpus.koleksiBuku.push(namaBuku);
+      return perpus.koleksiBuku;
+    }
+  }
 }
 
 // 2. pinjamBuku(namaBuku, namaPeminjam):
 function pinjamBuku(namaBuku, namaPeminjam) {
   if (!namaBuku || !namaPeminjam) {
     console.log("Nama buku dan nama peminjam harus diisi!!");
-    return;
+    return perpus;
   }
 
   let ditemukan = false;
@@ -43,18 +54,41 @@ function pinjamBuku(namaBuku, namaPeminjam) {
     console.log("Buku yang ada pinjam tidak ada");
     //         - Tampilkan "Buku tidak tersedia"
     console.log("Buku yang tersedia = " + perpus.koleksiBuku);
-    return;
+    return perpus;
   }
 }
 
-
 // 3. kembalikanBuku(namaBuku):
-//     - Jika namaBuku ada di BukuDipinjam:
-//         - Hapus namaBuku dari BukuDipinjam
-//         - Masukkan namaBuku ke KoleksiBuku
-//     - Jika tidak ada:
-//         - Tampilkan "Buku tidak ada di daftar pinjaman"
+function kembalikanBuku(namaBuku, namaPeminjam) {
+  if (!namaBuku || !namaPeminjam) {
+    console.log("Nama buku dan nama peminjam harus diisi!!");
+    return perpus;
+  }
+  //     - Jika namaBuku ada di BukuDipinjam:
+  for (let i = 0; i < perpus.bukuDipinjam.length; i++) {
+    let ditemukan = false;
+    if (namaBuku == perpus.bukuDipinjam[i]) {
+      ditemukan = true;
+      //         - Hapus namaBuku dari BukuDipinjam
+      perpus.bukuDipinjam.splice(i, 1);
+      perpus.peminjam.splice(i, 1);
+      //         - Masukkan namaBuku ke KoleksiBuku
+      perpus.koleksiBuku.push(namaBuku);
+      return perpus;
+    }
+  }
 
+  if (!ditemukan) {
+    //     - Jika tidak ada:
+    //         - Tampilkan "Buku tidak ada di daftar pinjaman"
+    console.log("Buku tidak ada di daftar pinjaman!!");
+    return perpus;
+  }
+}
 // 4. cekBuku():
-//     - Tampilkan semua buku di KoleksiBuku
-//     - Tampilkan buku yang sedang dipinjam di BukuDipinjam
+let cekbuku = function () {
+  //     - Tampilkan semua buku di KoleksiBuku
+  console.log("koleksi buku di perpustakaan " + perpus.koleksiBuku);
+  //     - Tampilkan buku yang sedang dipinjam di BukuDipinjam
+  console.log("Buku yang dipinjam: ", perpus.bukuDipinjam);
+};
